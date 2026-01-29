@@ -1,0 +1,9 @@
+switch:
+  - platform: gpio
+    id: diy_switch1
+    name: "${friendly_name} DIY Switch 1"
+    pin:
+      number: ${pin_diy_switch1}
+      mode: OUTPUT
+      inverted: ${diy_switch1_inverted}
+    restore_mode: ALWAYS_OFF

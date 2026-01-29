@@ -1,0 +1,11 @@
+sensor:
+  - platform: adc
+    id: usbc_cc1
+    name: "${friendly_name} USB-C CC1 ADC"
+    pin: ${pin_usbc_cc1_adc}
+    update_interval: 2s
+  - platform: adc
+    id: usbc_cc2
+    name: "${friendly_name} USB-C CC2 ADC"
+    pin: ${pin_usbc_cc2_adc}
+    update_interval: 2s

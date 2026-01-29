@@ -1,0 +1,7 @@
+switch:
+  - <<: !include uart3_rst_common.yaml
+    pin:
+      tca9555: ${tca9555_id}
+      number: ${tca_uart3_rst_num}
+      mode: OUTPUT
+      inverted: ${uart3_rst_inverted}

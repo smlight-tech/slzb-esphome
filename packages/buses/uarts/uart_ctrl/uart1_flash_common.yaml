@@ -1,0 +1,4 @@
+platform: gpio
+id: uart1_flash
+name: "${friendly_name} ${uart1_radio_name} FLASH"
+restore_mode: ALWAYS_OFF

@@ -1,0 +1,7 @@
+binary_sensor:
+  - <<: !include button1_common.yaml
+    pin:
+      tca9555: ${tca9555_id}
+      number: ${tca_btn1_num}
+      mode: INPUT
+      inverted: ${btn1_inverted}

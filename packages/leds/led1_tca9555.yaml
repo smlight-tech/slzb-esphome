@@ -1,0 +1,7 @@
+switch:
+  - <<: !include led1_common.yaml
+    pin:
+      tca9555: ${tca9555_id}
+      number: ${tca_led1_num}
+      mode: OUTPUT
+      inverted: ${led1_inverted}

@@ -1,0 +1,6 @@
+binary_sensor:
+  - <<: !include zw_check_common.yaml
+    pin:
+      number: ${pin_zw_check}
+      mode: INPUT
+      inverted: ${zw_check_inverted}

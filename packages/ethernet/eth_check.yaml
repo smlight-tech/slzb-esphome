@@ -1,0 +1,8 @@
+binary_sensor:
+  - platform: gpio
+    id: eth_check
+    name: "${friendly_name} Ethernet Check"
+    pin:
+      number: ${pin_eth_check}
+      mode: INPUT
+      inverted: ${eth_check_inverted}

@@ -1,0 +1,7 @@
+switch:
+  - <<: !include 4g_rst_common.yaml
+    pin:
+      tca9555: ${tca9555_id}
+      number: ${tca_addon4g_rst_num}
+      mode: OUTPUT
+      inverted: ${addon4g_rst_inverted}

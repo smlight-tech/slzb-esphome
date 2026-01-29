@@ -1,0 +1,116 @@
+packages:
+
+  ############################################################
+  #  0) Hardware definition (pins, SoC/flash, naming, flags)  #
+  ############################################################
+  hw: !include ../hw_defs/ultima/r1_04.yaml
+
+
+  ############################################################
+  #  1) ESPHome platform / runtime services (hardware-agnostic)
+  #     - core system config, diagnostics, bluetooth, wifi, etc.
+  ############################################################
+  platform_core: !include ../packages/core/core.yaml
+  platform_diag: !include ../packages/diagnostics/diagnostics.yaml
+  platform_ble:  !include ../packages/bluetooth/bluetooth.yaml
+  stream_server: !include ../packages/external_components/stream_server.yaml
+  # platform_wifi: !include ../packages/wifi/wifi.yaml   # enable if needed
+
+
+  ############################################################
+  #  2) HAL layer (hardware access / drivers / implementations)
+  #     Buses + IO expanders
+  ############################################################
+  hal_i2c:     !include ../packages/buses/i2c.yaml
+  hal_tca9555: !include ../packages/ioexp/tca9555.yaml
+
+  # --- UART buses (with HW flow control) ---
+  hal_uart1: !include ../packages/buses/uarts/uart1_hwfc.yaml
+  hal_uart2: !include ../packages/buses/uarts/uart2_hwfc.yaml
+  hal_uart3: !include ../packages/buses/uarts/uart3_hwfc.yaml
+
+  # --- UART reset/flash control (via TCA9555) ---
+  hal_uart1_rst:   !include ../packages/buses/uarts/uart_ctrl/uart1_rst_tca9555.yaml
+  hal_uart1_flash: !include ../packages/buses/uarts/uart_ctrl/uart1_flash_tca9555.yaml
+
+  hal_uart2_rst:   !include ../packages/buses/uarts/uart_ctrl/uart2_rst_tca9555.yaml
+  hal_uart2_flash: !include ../packages/buses/uarts/uart_ctrl/uart2_flash_tca9555.yaml
+
+  hal_uart3_rst:   !include ../packages/buses/uarts/uart_ctrl/uart3_rst_tca9555.yaml
+  hal_uart3_flash: !include ../packages/buses/uarts/uart_ctrl/uart3_flash_tca9555.yaml
+
+  # --- UART stream servers ---
+  hal_uart1_ss_server: !include ../packages/stream_servers/ss_uart1.yaml
+  hal_uart2_ss_server: !include ../packages/stream_servers/ss_uart2.yaml
+  hal_uart3_ss_server: !include ../packages/stream_servers/ss_uart3.yaml
+
+  # --- UART Port Sensors ---
+  #hal_uart1_port_sensor: !include ../packages/buses/uarts/port_sensors/uart1_port_sensor.yaml
+  #hal_uart2_port_sensor: !include ../packages/buses/uarts/port_sensors/uart2_port_sensor.yaml
+  #hal_uart3_port_sensor: !include ../packages/buses/uarts/port_sensors/uart3_port_sensor.yaml
+
+  # --- Inputs ---
+  hal_btn1: !include ../packages/input/button1_gpio.yaml
+  hal_btn2: !include ../packages/input/button2_tca9555.yaml
+
+  # --- Status LEDs ---
+  hal_led1: !include ../packages/leds/led1_gpio.yaml
+  hal_led2: !include ../packages/leds/led2_tca9555.yaml
+  # hal_ws2812: !include ../packages/ws2812/ws2812.yaml   # enable when RMT/strip is stable
+
+  # --- Ethernet / PoE / RJ45 LEDs ---
+  hal_w5500:     !include ../packages/ethernet/w5500_gpio.yaml
+  hal_rj45_leds: !include ../packages/ethernet/rj45_leds_tca9555.yaml
+
+
+  # --- USB mode / Buzzer (still HAL: defines entities bound to pins) ---
+  hal_usb_mode: !include ../packages/usb/usb_device_host_switch.yaml
+  #hal_usb_passthrough: !include ../packages/usb/usb_uart.yaml
+  buzzer: !include ../packages/buzzer/buzzer.yaml
+  buzzer_ha: !include ../packages/buzzer/buzzer_ha_input.yaml
+
+  # --- Add-ons (4G / UPS) ---
+  hal_addon4g_rst:   !include ../packages/addons/4g_rst_tca9555.yaml
+  hal_addon4g_power: !include ../packages/addons/4g_power_tca9555.yaml
+  hal_addon4g_check: !include ../packages/addons/4g_check_tca9555.yaml
+  hal_zw_check: !include ../packages/addons/zw_check_tca9555.yaml
+  hal_ups_reset: !include ../packages/addons/ups_reset_tca9555.yaml
+  hal_ups_check: !include ../packages/addons/ups_check_tca9555.yaml
+
+  # --- IR hardware (drivers) ---
+  hal_ir_rx:     !include ../packages/ir/ir_rx.yaml
+  hal_ir_tx:     !include ../packages/ir/ir_tx.yaml
+
+  # --- Speaker via I2S (optional) ---
+  #hal_i2s_speaker: !include ../packages/buses/i2s_speaker.yaml
+
+  # --- WS2812 RGB LEDs ---
+  hal_ws2812: !include ../packages/ws2812/ws2812.yaml
+  hal_ws2812_effects_common: !include ../packages/ws2812/effects/common.yaml
+  hal_ws2812_effects_lambda: !include ../packages/ws2812/effects/lambda.yaml
+
+  # --- I2S Microphone (sound reactive effects disabled - external component issues) ---
+  # hal_i2s_mic: !include ../packages/buses/i2s_mic.yaml
+  # hal_ws2812_effects_music: !include ../packages/ws2812/effects/music_leds.yaml
+  hal_ws2812_presets: !include ../packages/ws2812/presets.yaml
+  hal_ws2812_notify: !include ../packages/ws2812/notifications.yaml
+
+
+  ############################################################
+  #  3) Logic layer (behavior, scripts, automations)
+  ############################################################
+  logic_hal_ir_rx_web: !include ../packages/ir/ir_rx_web.yaml
+
+  # --- UART baud rate selector in runtime ---
+  logic_baud_rate_selector_uart1: !include ../packages/buses/uarts/uart_baud_runtime_selector/uart1_baud_selector.yaml
+  logic_baud_rate_selector_uart2: !include ../packages/buses/uarts/uart_baud_runtime_selector/uart2_baud_selector.yaml
+  logic_baud_rate_selector_uart3: !include ../packages/buses/uarts/uart_baud_runtime_selector/uart3_baud_selector.yaml
+
+
+  ############################################################
+  #  4) Libraries / catalogs (content packs: IR codes, effects)
+  #     Choose ONE or multiple IR code packs below.
+  ############################################################
+  ir_codes_tv_lg: !include ../libraries/ir/codes/tv_lg.yaml
+  # ir_codes_tv_samsung: !include ../libraries/ir/codes/tv_samsung.yaml
+  # ir_codes_avr_denon:  !include ../libraries/ir/codes/avr_denon.yaml

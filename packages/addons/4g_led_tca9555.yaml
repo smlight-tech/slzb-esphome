@@ -1,0 +1,7 @@
+switch:
+  - <<: !include 4g_led_common.yaml
+    pin:
+      tca9555: ${tca9555_id}
+      number: ${tca_4g_led_num}
+      mode: OUTPUT
+      inverted: ${addon4g_led_inverted}

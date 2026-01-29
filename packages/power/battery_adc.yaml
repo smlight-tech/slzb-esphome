@@ -1,0 +1,6 @@
+sensor:
+  - platform: adc
+    id: battery_voltage_raw
+    name: "${friendly_name} Battery ADC"
+    pin: ${pin_battery_adc}
+    update_interval: 10s

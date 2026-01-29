@@ -1,0 +1,121 @@
+# =============================================================================
+# Buzzer Home Assistant Text Input Package
+# Allows playing custom RTTTL melodies from Home Assistant
+# =============================================================================
+# Requires: packages/buzzer/buzzer.yaml to be included first
+# =============================================================================
+
+text:
+  - platform: template
+    id: rtttl_input
+    name: "${friendly_name} Play RTTTL"
+    icon: "mdi:music-note"
+    mode: text
+    optimistic: true
+    min_length: 0
+    max_length: 255
+    initial_value: ""
+    restore_value: false
+    on_value:
+      then:
+        - if:
+            condition:
+              lambda: 'return x.length() > 0 && !id(buzzer_silent);'
+            then:
+              - rtttl.play:
+                  id: buzzer_rtttl
+                  rtttl: !lambda 'return x;'
+
+# Preset melody selector dropdown
+select:
+  - platform: template
+    id: rtttl_preset
+    name: "${friendly_name} Melody Preset"
+    icon: "mdi:playlist-music"
+    optimistic: true
+    restore_value: false
+    options:
+      - "None"
+      - "Doorbell"
+      - "Notification"
+      - "Alert"
+      - "Success"
+      - "Error"
+      - "Mario"
+      - "Zelda"
+      - "Pacman"
+      - "Star Wars"
+      - "Nokia"
+    initial_option: "None"
+    on_value:
+      then:
+        - if:
+            condition:
+              lambda: 'return x == "Doorbell";'
+            then:
+              - rtttl.play:
+                  id: buzzer_rtttl
+                  rtttl: "doorbell:d=4,o=5,b=100:8e6,8d6,8e6,8d6,8e6,8b,8d6,8c6,2a"
+        - if:
+            condition:
+              lambda: 'return x == "Notification";'
+            then:
+              - rtttl.play:
+                  id: buzzer_rtttl
+                  rtttl: "notify:d=8,o=6,b=200:c,e,g,c7"
+        - if:
+            condition:
+              lambda: 'return x == "Alert";'
+            then:
+              - rtttl.play:
+                  id: buzzer_rtttl
+                  rtttl: "alert:d=4,o=5,b=200:16a,16p,16a,16p,16a,16p,16a"
+        - if:
+            condition:
+              lambda: 'return x == "Success";'
+            then:
+              - rtttl.play:
+                  id: buzzer_rtttl
+                  rtttl: "success:d=16,o=5,b=180:c,e,g,c6,8g,8c6"
+        - if:
+            condition:
+              lambda: 'return x == "Error";'
+            then:
+              - rtttl.play:
+                  id: buzzer_rtttl
+                  rtttl: "error:d=4,o=4,b=120:8c,8p,8c,8p,8c"
+        - if:
+            condition:
+              lambda: 'return x == "Mario";'
+            then:
+              - rtttl.play:
+                  id: buzzer_rtttl
+                  rtttl: "mario:d=4,o=5,b=100:16e6,16e6,32p,8e6,16c6,8e6,8g6,8p,8g,8p"
+        - if:
+            condition:
+              lambda: 'return x == "Zelda";'
+            then:
+              - rtttl.play:
+                  id: buzzer_rtttl
+                  rtttl: "zelda:d=4,o=5,b=125:a,a#,b,p,2a,1p,a,a#,b,p,2f6"
+        - if:
+            condition:
+              lambda: 'return x == "Pacman";'
+            then:
+              - rtttl.play:
+                  id: buzzer_rtttl
+                  rtttl: "pacman:d=4,o=5,b=112:32b,32p,32b6,32p,32f#6,32p,32d#6,32p,32b6,32f#6,16p,16d#6,16p,32c6,32p,32c7,32p,32g6,32p,32e6,32p,32c7,32g6,16p,16e6"
+        - if:
+            condition:
+              lambda: 'return x == "Star Wars";'
+            then:
+              - rtttl.play:
+                  id: buzzer_rtttl
+                  rtttl: "starwars:d=4,o=5,b=45:32p,32f#,32f#,32f#,8b.,8f#.6,32e6,32d#6,32c#6,8b.6,16f#.6,32e6,32d#6,32c#6,8b.6,16f#.6,32e6,32d#6,32e6,8c#.6"
+        - if:
+            condition:
+              lambda: 'return x == "Nokia";'
+            then:
+              - rtttl.play:
+                  id: buzzer_rtttl
+                  rtttl: "nokia:d=4,o=5,b=225:8e6,8d6,f#,g#,8c#6,8b,d,e,8b,8a,c#,e,2a"

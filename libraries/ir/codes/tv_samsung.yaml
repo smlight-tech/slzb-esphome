@@ -1,0 +1,18 @@
+button:
+  - platform: template
+    name: "${friendly_name} IR: Samsung TV Power"
+    on_press:
+      - remote_transmitter.transmit_samsung:
+          data: 0xE0E040BF
+
+  - platform: template
+    name: "${friendly_name} IR: Samsung TV Vol+"
+    on_press:
+      - remote_transmitter.transmit_samsung:
+          data: 0xE0E0E01F
+
+script:
+  - id: ir_samsung_power
+    then:
+      - remote_transmitter.transmit_samsung:
+          data: 0xE0E040BF

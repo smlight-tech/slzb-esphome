@@ -1,0 +1,117 @@
+substitutions:
+
+  # ==========================================================
+  # Device / Board Identity
+  # ==========================================================
+  device_name: slw09u-r1-01
+  friendly_name: SLW09U >
+
+  # ==========================================================
+  # ESP32-S3 Platform Configuration
+  # ==========================================================
+  esp32_board: esp32-s3-devkitc-1
+  esp32_psram_mode: quad
+  esp32_psram_speed: 80MHz
+  esp32_flash_size: 16Mb
+  cpu_frequency: 240Mhz
+
+  # ==========================================================
+  # Buttons
+  # ==========================================================
+  pin_btn1: "GPIO0"
+  btn1_inverted: true
+
+  pin_btn2: "GPIO47"
+  btn2_inverted: true
+
+  # ==========================================================
+  # Status LEDs
+  # ==========================================================
+  pin_led1: "GPIO45"
+  led1_inverted: false
+  led1_restore_mode: ALWAYS_OFF
+  # Note: LED2 is not available on SLW09U
+
+  # ==========================================================
+  # I2C Bus
+  # ==========================================================
+  pin_i2c_scl: "GPIO43"
+  pin_i2c_sda: "GPIO44"
+
+  # ==========================================================
+  # Ethernet / W5500 (SPI)
+  # ==========================================================
+  pin_spi_miso: "GPIO40"
+  pin_spi_mosi: "GPIO41"
+  pin_spi_sclk: "GPIO39"
+
+  pin_w5500_cs: "GPIO38"
+  pin_w5500_int: "GPIO16"
+  pin_w5500_rst: "GPIO42"
+
+  # Ethernet module detection (active-low)
+  pin_eth_check: "GPIO36"
+  eth_check_inverted: true
+
+  pin_rj45_leds: "GPIO35"
+  rj45_leds_inverted: false
+
+  # ==========================================================
+  # PoE
+  # ==========================================================
+  pin_poe_check: "GPIO33"
+  poe_check_inverted: true
+
+  # PoE to USB power passthrough
+  pin_poe_to_usb_power: "GPIO34"
+  poe_to_usb_power_inverted: false
+
+  # ==========================================================
+  # WS2812B / Addressable LEDs (WLED)
+  # ==========================================================
+  # LED power line switch (turns on/off VCC to LEDs)
+  pin_led_power: "GPIO48"
+  led_power_inverted: false
+
+  # ==========================================================
+  # Microphone (ICS-41414 Digital Mic)
+  # ==========================================================
+  # Note: pin_mic_sc (GPIO16) shares with pin_w5500_int
+  #       Use only one feature at a time if conflict occurs
+  pin_mic_ws: "GPIO15"
+  pin_mic_sc: "GPIO16"
+  pin_mic_sd: "GPIO17"
+
+  # ==========================================================
+  # I2S Audio Output (3.5mm Jack)
+  # ==========================================================
+  pin_i2s_sclk: "GPIO11"
+  pin_i2s_clkin: "GPIO13"
+  pin_i2s_lrck: "GPIO12"
+  pin_i2s_sdata: "GPIO14"
+
+  # ==========================================================
+  # DIY Expansion Ports
+  # ==========================================================
+  # DIY Sensors (inputs)
+  pin_diy_sensor1: "GPIO1"
+  diy_sensor1_inverted: false
+
+  pin_diy_sensor2: "GPIO2"
+  diy_sensor2_inverted: false
+
+  pin_diy_sensor3: "GPIO3"
+  diy_sensor3_inverted: false
+
+  # DIY Switches (outputs)
+  pin_diy_switch1: "GPIO4"
+  diy_switch1_inverted: false
+
+  pin_diy_switch2: "GPIO5"
+  diy_switch2_inverted: false
+
+  pin_diy_switch3: "GPIO6"
+  diy_switch3_inverted: false
+
+  pin_diy_switch4: "GPIO7"
+  diy_switch4_inverted: false

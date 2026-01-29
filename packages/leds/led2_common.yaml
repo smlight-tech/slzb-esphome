@@ -1,0 +1,4 @@
+platform: gpio
+id: led2
+name: "${friendly_name} LED2"
+restore_mode: ${led2_restore_mode}

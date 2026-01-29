@@ -1,0 +1,7 @@
+switch:
+  - <<: !include rj45_leds_common.yaml
+    pin:
+      tca9555: ${tca9555_id}
+      number: ${tca_rj45_leds_num}
+      mode: OUTPUT
+      inverted: ${rj45_leds_inverted}

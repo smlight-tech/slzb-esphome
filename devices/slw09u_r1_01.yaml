@@ -1,0 +1,68 @@
+packages:
+
+  ############################################################
+  #  0) Hardware definition (pins, SoC/flash, naming, flags)  #
+  ############################################################
+  hw: !include ../hw_defs/slw09u/r1_01.yaml
+
+
+  ############################################################
+  #  1) ESPHome platform / runtime services (hardware-agnostic)
+  #     - core system config, diagnostics, bluetooth, etc.
+  ############################################################
+  platform_core: !include ../packages/core/core.yaml
+  platform_diag: !include ../packages/diagnostics/diagnostics.yaml
+  platform_ble:  !include ../packages/bluetooth/bluetooth.yaml
+  # platform_wifi: !include ../packages/wifi/wifi.yaml   # enable if needed
+
+
+  ############################################################
+  #  2) HAL layer (hardware access / drivers / implementations)
+  #     Buses + peripherals
+  ############################################################
+
+  # --- I2C Bus ---
+  hal_i2c: !include ../packages/buses/i2c.yaml
+
+  # --- Inputs ---
+  hal_btn1: !include ../packages/input/button1_gpio.yaml
+  hal_btn2: !include ../packages/input/button2_gpio.yaml
+
+  # --- Status LEDs ---
+  hal_led1: !include ../packages/leds/led1_gpio.yaml
+  # Note: SLW09U has no LED2
+
+  # --- Ethernet / W5500 / RJ45 LEDs ---
+  hal_w5500:     !include ../packages/ethernet/w5500_gpio.yaml
+  hal_eth_check: !include ../packages/ethernet/eth_check.yaml
+  hal_rj45_leds: !include ../packages/ethernet/rj45_leds_gpio.yaml
+
+  # --- PoE ---
+  hal_poe_check:   !include ../packages/addons/poe_check.yaml
+  hal_poe_to_usb:  !include ../packages/usb/poe_to_usb_power.yaml
+
+  # --- WS2812B / Addressable LEDs ---
+  # TODO: Add LED power switch package when available
+  # hal_led_power: !include ../packages/ws2812/led_power_switch.yaml
+  # hal_ws2812:    !include ../packages/ws2812/ws2812.yaml
+
+  # --- Microphone (ICS-41414) ---
+  # hal_mic: !include ../packages/buses/i2s_mic.yaml
+
+  # --- I2S Audio Output ---
+  # hal_i2s_speaker: !include ../packages/buses/i2s_speaker.yaml
+
+  # --- DIY Expansion Ports ---
+  hal_diy_sensor1: !include ../packages/diy/diy_sensor1.yaml
+  hal_diy_sensor2: !include ../packages/diy/diy_sensor2.yaml
+  hal_diy_sensor3: !include ../packages/diy/diy_sensor3.yaml
+  hal_diy_switch1: !include ../packages/diy/diy_switch1.yaml
+  hal_diy_switch2: !include ../packages/diy/diy_switch2.yaml
+  hal_diy_switch3: !include ../packages/diy/diy_switch3.yaml
+  hal_diy_switch4: !include ../packages/diy/diy_switch4.yaml
+
+
+  ############################################################
+  #  3) Logic layer (behavior, scripts, automations)
+  ############################################################
+

@@ -1,0 +1,6 @@
+switch:
+  - <<: !include 4g_led_common.yaml
+    pin:
+      number: ${pin_4g_led}
+      mode: OUTPUT
+      inverted: ${addon4g_led_inverted}

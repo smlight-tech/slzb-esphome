@@ -1,0 +1,40 @@
+i2s_audio:
+  - id: mic_i2s
+    i2s_lrclk_pin: ${pin_mic_ws}   # WS = Word Select = LRCLK (GPIO37)
+    i2s_bclk_pin: ${pin_mic_sc}    # SC = SCK = BCLK (GPIO36)
+
+microphone:
+  - platform: i2s_audio
+    id: digital_mic
+    i2s_audio_id: mic_i2s
+    i2s_din_pin: ${pin_mic_sd}     # SD = Data (GPIO38)
+    adc_type: external
+    pdm: false
+    bits_per_sample: 32bit
+    sample_rate: 16000
+    channel: left
+
+sensor:
+  - platform: sound_level
+    id: mic_level
+    microphone: digital_mic
+    passive: true                  # Only run when started via switch
+    measurement_duration: 500ms
+    rms:
+      name: "${friendly_name} Mic RMS"
+    peak:
+      name: "${friendly_name} Mic Peak"
+
+switch:
+  - platform: template
+    id: mic_enabled
+    name: "${friendly_name} Mic Enabled"
+    icon: "mdi:microphone"
+    restore_mode: RESTORE_DEFAULT_OFF
+    optimistic: true
+    turn_on_action:
+      - microphone.capture: digital_mic
+      - sound_level.start: mic_level
+    turn_off_action:
+      - sound_level.stop: mic_level
+      - microphone.stop_capture: digital_mic      

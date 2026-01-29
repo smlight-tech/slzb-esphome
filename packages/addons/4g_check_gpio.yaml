@@ -1,0 +1,6 @@
+binary_sensor:
+  - <<: !include 4g_check_common.yaml
+    pin:
+      number: ${pin_4g_check}
+      mode: INPUT
+      inverted: ${addon4g_check_inverted}

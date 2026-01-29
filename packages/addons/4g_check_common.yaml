@@ -1,0 +1,3 @@
+platform: gpio
+id: lte_check
+name: "${friendly_name} 4G Presence"

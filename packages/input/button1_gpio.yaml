@@ -1,0 +1,6 @@
+binary_sensor:
+  - <<: !include button1_common.yaml
+    pin:
+      number: ${pin_btn1}
+      mode: INPUT_PULLUP
+      inverted: ${btn1_inverted}

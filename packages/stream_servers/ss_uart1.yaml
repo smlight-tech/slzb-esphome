@@ -1,0 +1,12 @@
+# hal/stream_servers/ss_uart1.yaml
+stream_server:
+  - id: ss_uart1
+    uart_id: hw_uart1
+    port: ${uart1_default_port}
+#    buffer_size: 8192
+
+binary_sensor:
+  - platform: stream_server
+    stream_server: ss_uart1
+    connected:
+      name: "${friendly_name} ${uart1_radio_name} TCP Connected"

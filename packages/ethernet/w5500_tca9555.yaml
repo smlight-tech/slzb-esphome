@@ -1,0 +1,9 @@
+# W5500 with INT/RST on TCA9555 (if used)
+ethernet:
+  <<: !include w5500_common.yaml
+  interrupt_pin:
+    tca9555: ${tca9555_id}
+    number: ${tca_w5500_int_num}
+  reset_pin:
+    tca9555: ${tca9555_id}
+    number: ${tca_w5500_rst_num}

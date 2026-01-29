@@ -1,0 +1,27 @@
+# Example: LG often uses NEC-like frames or LG protocol depending on remote.
+# Replace these with your captured values.
+
+button:
+  - platform: template
+    name: "${friendly_name} IR: LG TV Power"
+    on_press:
+      - remote_transmitter.transmit_lg:
+          data: 0x20DF10EF
+
+  - platform: template
+    name: "${friendly_name} IR: LG TV Vol+"
+    on_press:
+      - remote_transmitter.transmit_lg:
+          data: 0x20DF40BF
+
+  - platform: template
+    name: "${friendly_name} IR: LG TV Vol-"
+    on_press:
+      - remote_transmitter.transmit_lg:
+          data: 0x20DFC03F
+
+script:
+  - id: ir_lg_power
+    then:
+      - remote_transmitter.transmit_lg:
+          data: 0x20DF10EF

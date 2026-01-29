@@ -1,0 +1,83 @@
+substitutions:
+
+globals:
+  - id: buzzer_silent
+    type: bool
+    restore_value: true
+    initial_value: "false"
+
+# UI switch to mute buzzer
+switch:
+  - platform: template
+    id: buzzer_silent_switch
+    name: "${friendly_name} Buzzer Silent"
+    icon: "mdi:volume-mute"
+    restore_mode: RESTORE_DEFAULT_OFF
+    lambda: |-
+      return id(buzzer_silent);
+    turn_on_action:
+      - globals.set:
+          id: buzzer_silent
+          value: "true"
+      - script.execute: buzzer_stop
+    turn_off_action:
+      - globals.set:
+          id: buzzer_silent
+          value: "false"
+
+# PWM output for buzzer
+output:
+  - platform: ledc
+    id: buzzer_out
+    pin: ${pin_buzzer}
+    frequency: 2000Hz
+    # If your buzzer is active-low, uncomment:
+    # inverted: true
+
+# RTTTL player
+rtttl:
+  id: buzzer_rtttl
+  output: buzzer_out
+
+button:
+  - platform: template
+    id: buzzer_play_melody_btn
+    name: "${friendly_name} Buzzer Play"
+    icon: "mdi:music"
+    on_press:
+      - script.execute: buzzer_play_melody
+
+  - platform: template
+    id: buzzer_stop_btn
+    name: "${friendly_name} Buzzer Stop"
+    icon: "mdi:stop"
+    on_press:
+      - script.execute: buzzer_stop
+
+script:
+  - id: buzzer_stop
+    then:
+      - rtttl.stop:
+          id: buzzer_rtttl
+
+  - id: buzzer_play_rtttl
+    parameters:
+      tune: string
+    then:
+      - if:
+          condition:
+            lambda: return !id(buzzer_silent);
+          then:
+            - rtttl.play:
+                id: buzzer_rtttl
+                rtttl: !lambda |-
+                  return tune;
+
+  # Melody (short recognizable fragment; you can extend it)
+  - id: buzzer_play_melody
+    then:
+      - script.execute: buzzer_stop
+      - delay: 50ms
+      - script.execute:
+          id: buzzer_play_rtttl
+          tune: "Sample_melody:d=16,o=5,b=140:c6,b,8c6,g,p,g,p,d#,p,d#,p,c,p,c,p,c6,b,8c6,g#,p,g#,p,f,p,8f,c,p,c,p,c6,b,8c6,g,p,g,p,d#,p,d#,p,c,p,c,p,g,f,d#,d,c,d,d#,c,d#,f,8g,8p,8d6,c6,d6,a#,d6,a,d6,g,d6,d6,p,d6,p,d6,p,8d6,c6,d6,a#,d6,a,d6,g,d6,d6,p,d6,p,d6,p,g,f,d#,d,c,d,d#,c,d#,f,4c"

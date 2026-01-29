@@ -1,0 +1,218 @@
+substitutions:
+
+  # ==========================================================
+  # Device / Board Identity
+  # ==========================================================
+  device_name: ultima-r1-04
+  friendly_name: ULTIMA >
+
+  # ==========================================================
+  # ESP32-S3 Platform Configuration
+  # ==========================================================
+  esp32_board: esp32-s3-devkitc-1
+  esp32_psram_mode: quad
+  esp32_psram_speed: 80MHz
+  esp32_flash_size: 16Mb
+  cpu_frequency: 240Mhz
+
+  # ==========================================================
+  # Buttons
+  # ==========================================================
+  # Button 1 (direct GPIO)
+  pin_btn1: "GPIO0"                   
+  btn1_inverted: true
+
+  # Button 2 is on TCA9555
+  tca_btn2_num: 5
+  btn2_inverted: true
+
+  # ==========================================================
+  # Status LEDs
+  # ==========================================================
+  pin_led1: "GPIO46"
+  led1_inverted: false
+  led1_restore_mode: RESTORE_DEFAULT_ON
+
+  # LED2 is on TCA9555
+  tca_led2_num: 6
+  led2_inverted: true
+  led2_restore_mode: ALWAYS_OFF
+
+  # ==========================================================
+  # Buzzer
+  # ==========================================================
+  pin_buzzer: "GPIO35"
+
+  # ==========================================================
+  # WS2812 RGB LEDs
+  # ==========================================================
+  pin_ws2812: "GPIO34"                # WS2812 data pin
+  ws2812_num_leds: 12                 # Number of LEDs
+
+  # ==========================================================
+  # Infrared
+  # ==========================================================
+  pin_ir_rx: "GPIO3"                  # IR receiver input
+  pin_ir_tx: "GPIO47"                 # IR transmitter output
+
+  # ==========================================================
+  # I2C Bus
+  # ==========================================================
+  pin_i2c_scl: "GPIO43"
+  pin_i2c_sda: "GPIO44"
+
+  # ==========================================================
+  # TCA9555 I/O Expander
+  # ==========================================================
+  tca9555_addr: "0x24"                # I2C address
+  tca9555_id: tca9555_hub             # ESPHome component ID
+
+
+  # ==========================================================
+  # Ethernet / W5500 (SPI)
+  # ==========================================================
+  pin_spi_miso: "GPIO4"
+  pin_spi_mosi: "GPIO2"
+  pin_spi_sclk: "GPIO5"
+
+  pin_w5500_cs: "GPIO6"
+  pin_w5500_int: "GPIO1"
+  pin_w5500_rst: "GPIO7"
+
+  # RJ45 LEDs are on TCA9555
+  tca_rj45_leds_num: 9
+  rj45_leds_inverted: true
+
+
+  # ==========================================================
+  # PoE
+  # ==========================================================
+  # POEUPS signals are on TCA9555
+  pin_poe_check: 13                   # PoE check (TCA9555 pin number)
+  poe_check_inverted: false            # PoE check logic
+
+  # ==========================================================
+  # UPS
+  # ==========================================================
+  # UPS signals are on TCA9555
+  tca_ups_check_num: 14               # UPS check (TCA9555 pin number)
+  ups_check_inverted: true            # UPS check logic
+
+  tca_ups_reset_num: 15               # UPS reset (TCA9555 pin number)
+  ups_reset_inverted: true            # UPS reset logic
+
+
+  # ==========================================================
+  # 4G / LTE Add-on
+  # ==========================================================
+  # LTE module detect (TCA9555)
+  tca_addon4g_check_num: 12
+  addon4g_check_inverted: true
+
+  # LTE power enable (TCA9555)
+  tca_addon4g_power_num: 11
+  addon4g_power_inverted: false
+
+  # LTE reset (TCA9555)
+  tca_addon4g_rst_num: 10
+  addon4g_rst_inverted: true
+
+
+  # ==========================================================
+  # Z-Wave Add-on
+  # ==========================================================
+  tca_zw_check_num: 0                 # Z-Wave presence (TCA9555 pin number)
+  zw_check_inverted: true             # Z-Wave check logic
+
+
+  # ==========================================================
+  # USB Mode Select
+  # ==========================================================
+  pin_usb_device_host: "GPIO21"
+  usb_device_host_inverted: true
+
+
+  # ==========================================================
+  # DIY Expansion Ports (only inversion flags in your file)
+  # ==========================================================
+  diy_sensor1_inverted: false
+  diy_sensor2_inverted: false
+  diy_sensor3_inverted: false
+
+  diy_switch1_inverted: false
+  diy_switch2_inverted: false
+  diy_switch3_inverted: false
+  diy_switch4_inverted: false
+
+
+  # ==========================================================
+  # I2S Audio (speaker + microphone)
+  # ==========================================================
+  # 3.5 audio output
+  pin_i2s_clkin: "GPIO10"
+  pin_i2s_lrck: "GPIO11"
+  pin_i2s_sclk: "GPIO45"
+  pin_i2s_sdata: "GPIO18"
+
+  # Mic addon pinouts
+  pin_mic_sc: "GPIO36"
+  pin_mic_ws: "GPIO37"
+  pin_mic_sd: "GPIO38"
+
+
+  # ==========================================================
+  # UART1 (pins + TCA control lines)
+  # ==========================================================
+  pin_uart1_tx: "GPIO40"
+  pin_uart1_rx: "GPIO39"
+  pin_uart1_cts: "GPIO41"
+  pin_uart1_rts: "GPIO42"
+  uart1_baud: 115200
+  uart1_default_port: 7638
+  
+  uart1_radio_name: CC26
+
+  tca_uart1_flash_num: 3              # UART1 FLASH/BOOT control via TCA9555
+  uart1_flash_inverted: true
+
+  tca_uart1_rst_num: 4                # UART1 RESET control via TCA9555
+  uart1_rst_inverted: true
+
+
+  # ==========================================================
+  # UART2 (pins + TCA control lines)
+  # ==========================================================
+  pin_uart2_tx: "GPIO9"
+  pin_uart2_rx: "GPIO8"
+  pin_uart2_cts: "GPIO12"
+  pin_uart2_rts: "GPIO13"
+  uart2_baud: 115200
+  uart2_default_port: 6638
+
+  uart2_radio_name: EFR32
+
+  tca_uart2_flash_num: 7
+  uart2_flash_inverted: true
+
+  tca_uart2_rst_num: 8
+  uart2_rst_inverted: true
+
+
+  # ==========================================================
+  # UART3 (pins + TCA control lines)
+  # ==========================================================
+  pin_uart3_tx: "GPIO14"
+  pin_uart3_rx: "GPIO15"
+  pin_uart3_cts: "GPIO17"
+  pin_uart3_rts: "GPIO16"
+  uart3_baud: 115200
+  uart3_default_port: 8638
+  
+  uart3_radio_name: ZW-800
+
+  tca_uart3_flash_num: 2
+  uart3_flash_inverted: true
+
+  tca_uart3_rst_num: 1
+  uart3_rst_inverted: true
+

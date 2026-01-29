@@ -1,0 +1,35 @@
+esphome:
+  name: ${device_name}
+  friendly_name: ${friendly_name}
+  name_add_mac_suffix: true
+  project:
+    name: SMLIGHT.${device_name}
+    version: "1.00"
+
+esp32:
+  board: ${esp32_board}
+#  flash_size: ${esp32_flash_size}
+#  cpu_frequency: ${cpu_frequency}
+  framework:
+    type: esp-idf
+#    version: recommended
+    sdkconfig_options:
+      CONFIG_LWIP_MAX_SOCKETS: "16"
+
+# ESP32-S3R2 with PSRAM (typical mode: quad)
+psram:
+  mode: ${esp32_psram_mode}
+  speed: ${esp32_psram_speed}  
+
+logger:
+
+api:
+
+ota:
+  - platform: esphome
+
+#web_server:
+#  port: 80
+#  local: true
+
+

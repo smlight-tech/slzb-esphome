@@ -1,0 +1,10 @@
+light:
+  - platform: esp32_rmt_led_strip
+    chipset: WS2812
+    rgb_order: GRB
+    pin: ${pin_ws2812}
+    num_leds: ${ws2812_num_leds}
+    name: "${friendly_name} WS2812"
+    id: ws2812
+    rmt_symbols: 192
+    default_transition_length: 0ms

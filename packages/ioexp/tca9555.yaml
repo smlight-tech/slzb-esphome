@@ -1,0 +1,3 @@
+tca9555:
+  - id: ${tca9555_id}
+    address: ${tca9555_addr}

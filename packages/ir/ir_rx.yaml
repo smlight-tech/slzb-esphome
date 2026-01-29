@@ -1,0 +1,4 @@
+remote_receiver:
+  pin: ${pin_ir_rx}
+  rmt_symbols: 96
+  dump: all

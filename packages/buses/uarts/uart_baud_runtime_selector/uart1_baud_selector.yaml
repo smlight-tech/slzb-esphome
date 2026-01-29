@@ -1,0 +1,18 @@
+select:
+  - id: change_baud_rate_uart1
+    name: "${friendly_name} ${uart1_radio_name} baud rate"
+    platform: template
+    options: ["115200", "230400", "460800", "921600"]
+    initial_option: "115200"
+    optimistic: true
+    restore_value: true
+    entity_category: config
+    icon: mdi:swap-horizontal
+    set_action:
+      - lambda: |-
+          id(hw_uart1).flush();
+          uint32_t br = stoi(x);
+          if (id(hw_uart1).get_baud_rate() != br) {
+            id(hw_uart1).set_baud_rate(br);
+            id(hw_uart1).load_settings();
+          }

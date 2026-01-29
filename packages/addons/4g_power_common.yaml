@@ -1,0 +1,3 @@
+platform: gpio
+id: lte_power
+name: "${friendly_name} 4G Power"

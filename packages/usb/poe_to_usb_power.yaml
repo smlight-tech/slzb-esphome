@@ -1,0 +1,9 @@
+switch:
+  - platform: gpio
+    id: poe_to_usb_power
+    name: "${friendly_name} PoE to USB Power"
+    pin:
+      number: ${pin_poe_to_usb_power}
+      mode: OUTPUT
+      inverted: ${poe_to_usb_power_inverted}
+    restore_mode: ALWAYS_OFF

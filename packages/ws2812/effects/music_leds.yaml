@@ -1,0 +1,125 @@
+# =============================================================================
+# WS2812 Music LEDs / Sound Reactive Effects Package
+# Uses local components (originally from andrewjswan/esphome-components)
+# Fixed for ESPHome 2025.12+
+# =============================================================================
+# Requires: packages/buses/i2s_mic.yaml to be included first
+# =============================================================================
+
+external_components:
+  - source:
+      type: local
+      path: components
+    components: [fastled_helper, music_leds]
+
+# FastLED library dependency
+esphome:
+  libraries:
+    - fastled/FastLED@3.9.7
+
+fastled_helper:
+  music_leds: true
+
+music_leds:
+  id: music_light
+
+number:
+  # Speed control for music effects
+  - platform: template
+    id: music_leds_speed
+    name: "${friendly_name} Music Speed"
+    icon: "mdi:speedometer"
+    min_value: 1
+    max_value: 100
+    step: 1
+    initial_value: 50
+    optimistic: true
+    restore_value: true
+    on_value:
+      then:
+        - lambda: |-
+            id(music_light).set_speed(x);
+
+  # Variant/mode control for music effects
+  - platform: template
+    id: music_leds_variant
+    name: "${friendly_name} Music Variant"
+    icon: "mdi:tune-variant"
+    min_value: 0
+    max_value: 10
+    step: 1
+    initial_value: 0
+    optimistic: true
+    restore_value: true
+    on_value:
+      then:
+        - lambda: |-
+            id(music_light).set_variant(x);
+
+light:
+  - id: !extend ws2812
+    effects:
+      # --- Sound Reactive Effects ---
+      - music_leds_effect:
+          name: "Music: Grav"
+          mode: GRAV
+
+      - music_leds_effect:
+          name: "Music: Gravicenter"
+          mode: GRAVICENTER
+
+      - music_leds_effect:
+          name: "Music: Gravicentric"
+          mode: GRAVICENTRIC
+
+      - music_leds_effect:
+          name: "Music: Gravimeter"
+          mode: GRAVIMETER
+
+      - music_leds_effect:
+          name: "Music: Pixels"
+          mode: PIXELS
+
+      - music_leds_effect:
+          name: "Music: Jungles"
+          mode: JUNGLES
+
+      - music_leds_effect:
+          name: "Music: Midnoise"
+          mode: MIDNOISE
+
+      - music_leds_effect:
+          name: "Music: Ripple Peak"
+          mode: RIPPLEPEAK
+
+      - music_leds_effect:
+          name: "Music: Matripix"
+          mode: MATRIPIX
+
+      - music_leds_effect:
+          name: "Music: Noise Fire"
+          mode: NOISEFIRE
+
+      - music_leds_effect:
+          name: "Music: Pixel Wave"
+          mode: PIXELWAVE
+
+      - music_leds_effect:
+          name: "Music: Plasmoid"
+          mode: PLASMOID
+
+      - music_leds_effect:
+          name: "Music: Puddle Peak"
+          mode: PUDDLEPEAK
+
+      - music_leds_effect:
+          name: "Music: Puddles"
+          mode: PUDDLES
+
+      - music_leds_effect:
+          name: "Music: DJ Light"
+          mode: DJLIGHT
+
+      - music_leds_effect:
+          name: "Music: Waterfall"
+          mode: WATERFALL

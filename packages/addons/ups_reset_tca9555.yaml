@@ -1,0 +1,7 @@
+switch:
+  - <<: !include ups_reset_common.yaml
+    pin:
+      tca9555: ${tca9555_id}
+      number: ${tca_ups_reset_num}
+      mode: OUTPUT
+      inverted: ${ups_reset_inverted}

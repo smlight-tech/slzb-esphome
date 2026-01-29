@@ -1,0 +1,6 @@
+switch:
+  - <<: !include 4g_power_common.yaml
+    pin:
+      number: ${pin_4g_power}
+      mode: OUTPUT
+      inverted: ${addon4g_power_inverted}

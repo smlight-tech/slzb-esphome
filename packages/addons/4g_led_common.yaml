@@ -1,0 +1,3 @@
+platform: gpio
+id: lte_led
+name: "${friendly_name} 4G LED"

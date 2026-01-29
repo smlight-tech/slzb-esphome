@@ -1,0 +1,50 @@
+# I2S bus
+i2s_audio:
+  - id: i2s_out
+    i2s_lrclk_pin: ${pin_i2s_lrck}
+    i2s_bclk_pin: ${pin_i2s_sclk}
+    # Enable MCLK ONLY if your DAC explicitly requires it:
+    # i2s_mclk_pin: ${pin_i2s_clkin}   # :contentReference[oaicite:1]{index=1}
+
+# I2S Media Player (includes decoding + streaming -> I2S)
+media_player:
+  - platform: i2s_audio
+    id: radio_player
+    name: "ULTIMA > I2S Radio Player"
+    dac_type: external
+    i2s_audio_id: i2s_out
+    i2s_dout_pin: ${pin_i2s_sdata}
+    # mode: stereo   # optional, depends on your DAC/amp; try if mono is weird
+    on_state:
+      - logger.log: "Media player state updated"  # :contentReference[oaicite:2]{index=2}
+
+# Quick test controls
+button:
+  - platform: template
+    name: "ULTIMA > Play Radio (MP3)"
+    icon: "mdi:radio"
+    on_press:
+      - media_player.play_media:
+          id: radio_player
+          media_url: "http://icecast.omroep.nl/radio1-bb-mp3"  # MP3 stream
+      # play_media syntax per ESPHome docs :contentReference[oaicite:3]{index=3}
+
+  - platform: template
+    name: "ULTIMA > Stop"
+    icon: "mdi:stop"
+    on_press:
+      - media_player.stop: radio_player  # :contentReference[oaicite:4]{index=4}
+
+# Optional: volume control (0.0..1.0 in HA UI)
+number:
+  - platform: template
+    name: "ULTIMA > Volume"
+    icon: "mdi:volume-high"
+    min_value: 0
+    max_value: 1
+    step: 0.05
+    initial_value: 0.5
+    set_action:
+      - media_player.volume_set:
+          id: radio_player
+          volume: !lambda "return x;"  # :contentReference[oaicite:5]{index=5}

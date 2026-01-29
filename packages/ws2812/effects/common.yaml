@@ -1,0 +1,106 @@
+# =============================================================================
+# WS2812 Common Effects Package
+# Built-in ESPHome addressable light effects
+# =============================================================================
+
+light:
+  - id: !extend ws2812
+    effects:
+      # --- Static/Simple Effects ---
+      - addressable_rainbow:
+          name: Rainbow
+          speed: 10
+          width: 50
+
+      - addressable_color_wipe:
+          name: Color Wipe
+          colors:
+            - red: 100%
+              green: 0%
+              blue: 0%
+              num_leds: 1
+            - red: 0%
+              green: 100%
+              blue: 0%
+              num_leds: 1
+            - red: 0%
+              green: 0%
+              blue: 100%
+              num_leds: 1
+          add_led_interval: 100ms
+          reverse: false
+
+      - addressable_scan:
+          name: Scan
+          move_interval: 100ms
+          scan_width: 1
+
+      - addressable_twinkle:
+          name: Twinkle
+          twinkle_probability: 5%
+          progress_interval: 4ms
+
+      - addressable_random_twinkle:
+          name: Random Twinkle
+          twinkle_probability: 5%
+          progress_interval: 32ms
+
+      - addressable_fireworks:
+          name: Fireworks
+          update_interval: 32ms
+          spark_probability: 10%
+          use_random_color: false
+          fade_out_rate: 120
+
+      - addressable_fireworks:
+          name: Fireworks Random
+          update_interval: 32ms
+          spark_probability: 10%
+          use_random_color: true
+          fade_out_rate: 120
+
+      - addressable_flicker:
+          name: Flicker
+          update_interval: 16ms
+          intensity: 5%
+
+      # --- Pulse/Breathing ---
+      - pulse:
+          name: Pulse
+          transition_length: 1s
+          update_interval: 1s
+          min_brightness: 0%
+          max_brightness: 100%
+
+      # --- Strobe Effects ---
+      - strobe:
+          name: Strobe
+          colors:
+            - state: true
+              brightness: 100%
+              red: 100%
+              green: 100%
+              blue: 100%
+              duration: 50ms
+            - state: false
+              duration: 50ms
+
+      - strobe:
+          name: Strobe Police
+          colors:
+            - state: true
+              brightness: 100%
+              red: 100%
+              green: 0%
+              blue: 0%
+              duration: 100ms
+            - state: false
+              duration: 50ms
+            - state: true
+              brightness: 100%
+              red: 0%
+              green: 0%
+              blue: 100%
+              duration: 100ms
+            - state: false
+              duration: 50ms

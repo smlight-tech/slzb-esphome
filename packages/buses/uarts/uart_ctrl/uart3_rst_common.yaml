@@ -1,0 +1,4 @@
+platform: gpio
+id: uart3_rst
+name: "${friendly_name} ${uart3_radio_name} RST"
+restore_mode: ALWAYS_OFF

@@ -1,0 +1,88 @@
+substitutions:
+
+  # ==========================================================
+  # Device / Board Identity
+  # ==========================================================
+  device_name: 06xu-r1-73
+  friendly_name: 06XU >
+
+  # ==========================================================
+  # ESP32-S3 Platform Configuration
+  # ==========================================================
+  esp32_board: esp32-s3-devkitc-1
+  esp32_psram_mode: quad
+  esp32_psram_speed: 80MHz
+  esp32_flash_size: 16Mb
+  cpu_frequency: 240Mhz
+
+  # ==========================================================
+  # Buttons
+  # ==========================================================
+  pin_btn1: "GPIO0"
+  btn1_inverted: true
+  # Note: Button 2 is not available on 06xU
+
+  # ==========================================================
+  # Status LEDs
+  # ==========================================================
+  pin_led1: "GPIO46"
+  led1_inverted: true
+  led1_restore_mode: RESTORE_DEFAULT_ON
+
+  pin_led2: "GPIO45"
+  led2_inverted: true
+  led2_restore_mode: ALWAYS_OFF
+
+  # ==========================================================
+  # I2C Bus
+  # ==========================================================
+  pin_i2c_scl: "GPIO43"
+  pin_i2c_sda: "GPIO44"
+
+  # ==========================================================
+  # Ethernet / W5500 (SPI)
+  # ==========================================================
+  pin_spi_miso: "GPIO41"
+  pin_spi_mosi: "GPIO39"
+  pin_spi_sclk: "GPIO42"
+
+  pin_w5500_cs: "GPIO2"
+  pin_w5500_int: "GPIO38"
+  pin_w5500_rst: "GPIO40"
+
+  pin_rj45_leds: "GPIO1"
+  rj45_leds_inverted: true
+
+  # ==========================================================
+  # USB Mode Select
+  # ==========================================================
+  pin_usb_device_host: "GPIO47"
+  usb_device_host_inverted: true
+
+  # PoE to USB power passthrough
+  pin_poe_to_usb_power: "GPIO48"
+  poe_to_usb_power_inverted: false
+
+  # Type-C CC pin ADC (for USB mode/power detection)
+  pin_usbc_cc1_adc: "GPIO4"
+  pin_usbc_cc2_adc: "GPIO5"
+
+  # ==========================================================
+  # UART2 - Single Radio (Zigbee or Thread)
+  # ==========================================================
+  # Note: 06xU has ONE radio connected to UART2
+  #       UART1 and UART3 are not available on this device
+  pin_uart2_tx: "GPIO17"
+  pin_uart2_rx: "GPIO18"
+  pin_uart2_cts: "GPIO15"
+  pin_uart2_rts: "GPIO14"
+  uart2_baud: 115200
+  uart2_default_port: 6638
+
+  uart2_radio_name: Radio
+
+  pin_uart2_flash: "GPIO16"
+  uart2_flash_inverted: true
+
+  pin_uart2_rst: "GPIO21"
+  uart2_rst_inverted: true

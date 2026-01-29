@@ -1,0 +1,6 @@
+switch:
+  - <<: !include 4g_rst_common.yaml
+    pin:
+      number: ${pin_4g_rst}
+      mode: OUTPUT
+      inverted: ${addon4g_rst_inverted}

@@ -1,0 +1,6 @@
+switch:
+  - <<: !include rj45_leds_common.yaml
+    pin:
+      number: ${pin_rj45_leds}
+      mode: OUTPUT
+      inverted: ${rj45_leds_inverted}

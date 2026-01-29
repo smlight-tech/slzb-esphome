@@ -1,0 +1,6 @@
+switch:
+  - <<: !include uart2_flash_common.yaml
+    pin:
+      number: ${pin_uart2_flash}
+      mode: OUTPUT
+      inverted: ${uart2_flash_inverted}

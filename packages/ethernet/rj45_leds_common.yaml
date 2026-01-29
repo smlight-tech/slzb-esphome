@@ -1,0 +1,4 @@
+platform: gpio
+id: rj45_leds
+name: "${friendly_name} RJ45 LEDs"
+restore_mode: ALWAYS_ON

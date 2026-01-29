@@ -1,0 +1,62 @@
+packages:
+
+  ############################################################
+  #  0) Hardware definition (pins, SoC/flash, naming, flags)  #
+  ############################################################
+  hw: !include ../hw_defs/06xu/r1_73.yaml
+
+
+  ############################################################
+  #  1) ESPHome platform / runtime services (hardware-agnostic)
+  #     - core system config, diagnostics, bluetooth, etc.
+  ############################################################
+  platform_core: !include ../packages/core/core.yaml
+  platform_diag: !include ../packages/diagnostics/diagnostics.yaml
+  platform_ble:  !include ../packages/bluetooth/bluetooth.yaml
+  stream_server: !include ../packages/external_components/stream_server.yaml
+  # platform_wifi: !include ../packages/wifi/wifi.yaml   # enable if needed
+
+
+  ############################################################
+  #  2) HAL layer (hardware access / drivers / implementations)
+  #     Buses + peripherals
+  ############################################################
+
+  # --- I2C Bus ---
+  hal_i2c: !include ../packages/buses/i2c.yaml
+
+  # --- UART bus (with HW flow control) ---
+  # Note: 06xU has only ONE radio connected to UART2
+  hal_uart2: !include ../packages/buses/uarts/uart2_hwfc.yaml
+
+  # --- UART reset/flash control (via GPIO) ---
+  hal_uart2_rst:   !include ../packages/buses/uarts/uart_ctrl/uart2_rst_gpio.yaml
+  hal_uart2_flash: !include ../packages/buses/uarts/uart_ctrl/uart2_flash_gpio.yaml
+
+  # --- UART stream server ---
+  hal_uart2_ss_server: !include ../packages/stream_servers/ss_uart2.yaml
+
+  # --- Inputs ---
+  hal_btn1: !include ../packages/input/button1_gpio.yaml
+  # Note: 06xU has no Button 2
+
+  # --- Status LEDs ---
+  hal_led1: !include ../packages/leds/led1_gpio.yaml
+  hal_led2: !include ../packages/leds/led2_gpio.yaml
+
+  # --- Ethernet / W5500 / RJ45 LEDs ---
+  hal_w5500:     !include ../packages/ethernet/w5500_gpio.yaml
+  hal_rj45_leds: !include ../packages/ethernet/rj45_leds_gpio.yaml
+
+  # --- USB mode ---
+  hal_usb_mode:       !include ../packages/usb/usb_device_host_switch.yaml
+  hal_poe_to_usb:     !include ../packages/usb/poe_to_usb_power.yaml
+  hal_usbc_cc_adc:    !include ../packages/usb/usbc_cc_adc.yaml
+
+
+  ############################################################
+  #  3) Logic layer (behavior, scripts, automations)
+  ############################################################
+
+  # --- UART baud rate selector in runtime ---
+  logic_baud_rate_selector_uart2: !include ../packages/buses/uarts/uart_baud_runtime_selector/uart2_baud_selector.yaml

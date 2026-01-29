@@ -1,0 +1,9 @@
+switch:
+  - platform: gpio
+    id: usb_device_host
+    name: "${friendly_name} USB Device/Host"
+    pin:
+      number: ${pin_usb_device_host}
+      mode: OUTPUT
+      inverted: ${usb_device_host_inverted}
+    restore_mode: ALWAYS_OFF

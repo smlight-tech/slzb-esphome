@@ -1,0 +1,7 @@
+platform: gpio
+id: btn2
+name: "${friendly_name} Button 2"
+filters:
+  - delayed_on: 20ms
+  - delayed_off: 20ms
+

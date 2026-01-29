@@ -1,0 +1,6 @@
+switch:
+  - <<: !include uart1_rst_common.yaml
+    pin:
+      number: ${pin_uart1_rst}
+      mode: OUTPUT
+      inverted: ${uart1_rst_inverted}

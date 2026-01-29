@@ -1,0 +1,8 @@
+binary_sensor:
+  - platform: gpio
+    id: poe_check
+    name: "${friendly_name} PoE Presence"
+    pin:
+      number: ${pin_poe_check}
+      mode: INPUT
+      inverted: ${poe_check_inverted}

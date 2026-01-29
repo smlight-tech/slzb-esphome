@@ -1,0 +1,128 @@
+# =============================================================================
+# WS2812 Presets Package
+# Quick preset selector for common lighting modes
+# =============================================================================
+# Requires: packages/ws2812/ws2812.yaml to be included first
+# =============================================================================
+
+select:
+  - platform: template
+    id: ws2812_preset
+    name: "${friendly_name} LED Preset"
+    icon: "mdi:palette"
+    optimistic: true
+    restore_value: false
+    options:
+      - "None"
+      - "Off"
+      - "White"
+      - "Warm White"
+      - "Night Light"
+      - "Red"
+      - "Green"
+      - "Blue"
+      - "Purple"
+      - "Cyan"
+      - "Orange"
+      - "Rainbow"
+      - "Fire"
+      - "Twinkle"
+      - "Confetti"
+      - "Party"
+      - "Cozy"
+      - "Alert"
+      - "Christmas"
+    initial_option: "None"
+    on_value:
+      then:
+        - lambda: |-
+            if (x == "None") return;
+
+            auto call = id(ws2812).turn_on();
+
+            if (x == "Off") {
+              id(ws2812).turn_off().perform();
+              return;
+            }
+            else if (x == "White") {
+              call.set_rgb(1.0, 1.0, 1.0);
+              call.set_brightness(1.0);
+              call.set_effect("None");
+            }
+            else if (x == "Warm White") {
+              call.set_rgb(1.0, 0.8, 0.6);
+              call.set_brightness(0.8);
+              call.set_effect("None");
+            }
+            else if (x == "Night Light") {
+              call.set_rgb(1.0, 0.5, 0.2);
+              call.set_brightness(0.1);
+              call.set_effect("None");
+            }
+            else if (x == "Red") {
+              call.set_rgb(1.0, 0.0, 0.0);
+              call.set_brightness(1.0);
+              call.set_effect("None");
+            }
+            else if (x == "Green") {
+              call.set_rgb(0.0, 1.0, 0.0);
+              call.set_brightness(1.0);
+              call.set_effect("None");
+            }
+            else if (x == "Blue") {
+              call.set_rgb(0.0, 0.0, 1.0);
+              call.set_brightness(1.0);
+              call.set_effect("None");
+            }
+            else if (x == "Purple") {
+              call.set_rgb(0.6, 0.0, 1.0);
+              call.set_brightness(1.0);
+              call.set_effect("None");
+            }
+            else if (x == "Cyan") {
+              call.set_rgb(0.0, 1.0, 1.0);
+              call.set_brightness(1.0);
+              call.set_effect("None");
+            }
+            else if (x == "Orange") {
+              call.set_rgb(1.0, 0.5, 0.0);
+              call.set_brightness(1.0);
+              call.set_effect("None");
+            }
+            else if (x == "Rainbow") {
+              call.set_brightness(1.0);
+              call.set_effect("Rainbow");
+            }
+            else if (x == "Fire") {
+              call.set_brightness(1.0);
+              call.set_effect("Fire");
+            }
+            else if (x == "Twinkle") {
+              call.set_rgb(1.0, 1.0, 1.0);
+              call.set_brightness(1.0);
+              call.set_effect("Random Twinkle");
+            }
+            else if (x == "Confetti") {
+              call.set_brightness(1.0);
+              call.set_effect("Confetti");
+            }
+            else if (x == "Party") {
+              call.set_brightness(1.0);
+              call.set_effect("Strobe Police");
+            }
+            else if (x == "Cozy") {
+              call.set_rgb(1.0, 0.6, 0.3);
+              call.set_brightness(0.4);
+              call.set_effect("Pulse");
+            }
+            else if (x == "Alert") {
+              call.set_rgb(1.0, 0.0, 0.0);
+              call.set_brightness(1.0);
+              call.set_effect("Strobe");
+            }
+            else if (x == "Christmas") {
+              call.set_brightness(1.0);
+              call.set_effect("Christmas");
+            }
+
+            call.perform();

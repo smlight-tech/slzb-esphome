@@ -1,0 +1,16 @@
+# Many AVRs use NEC/RC5/etc. Replace with captured values.
+
+button:
+  - platform: template
+    name: "${friendly_name} IR: Denon Power"
+    on_press:
+      - remote_transmitter.transmit_nec:
+          address: 0x1AE5
+          command: 0x3EC1
+
+  - platform: template
+    name: "${friendly_name} IR: Denon Input HDMI1"
+    on_press:
+      - remote_transmitter.transmit_nec:
+          address: 0x1AE5
+          command: 0xA25D

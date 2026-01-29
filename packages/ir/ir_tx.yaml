@@ -1,0 +1,4 @@
+remote_transmitter:
+  pin: ${pin_ir_tx}
+  carrier_duty_percent: 50%
+  rmt_symbols: 128

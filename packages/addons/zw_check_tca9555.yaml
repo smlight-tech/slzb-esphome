@@ -1,0 +1,7 @@
+binary_sensor:
+  - <<: !include zw_check_common.yaml
+    pin:
+      tca9555: ${tca9555_id}
+      number: ${tca_zw_check_num}
+      mode: INPUT
+      inverted: ${zw_check_inverted}

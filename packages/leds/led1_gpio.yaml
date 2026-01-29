@@ -1,0 +1,6 @@
+switch:
+  - <<: !include led1_common.yaml
+    pin:
+      number: ${pin_led1}
+      mode: OUTPUT
+      inverted: ${led1_inverted}

@@ -1,0 +1,101 @@
+# packages/ir/ir_rx_web.yaml
+# Requires: ${pin_ir_rx} in board substitutions.
+
+text_sensor:
+  - platform: template
+    id: ir_raw_last
+    name: "${friendly_name} IR Raw (1s)"
+    update_interval: never
+    icon: "mdi:waveform"
+
+  - platform: template
+    id: ir_decoded_last
+    name: "${friendly_name} IR Decoded (1s)"
+    update_interval: never
+    icon: "mdi:remote"
+
+remote_receiver:
+  pin:
+    number: ${pin_ir_rx}
+    mode: INPUT
+  # If your receiver output is inverted, enable this:
+  # inverted: true
+
+  # Keep it flexible: decode popular protocols + also allow raw trigger
+  dump:
+    - nec
+    - sony
+    - panasonic
+    - rc6
+    - lg
+
+  # RAW: show something brief for 1 second
+  on_raw:
+    then:
+      - text_sensor.template.publish:
+          id: ir_raw_last
+          state: !lambda |-
+            // x is a RawTimings object. We can safely show length.
+            char buf[48];
+            snprintf(buf, sizeof(buf), "RAW len=%u", (unsigned) x.size());
+            return std::string(buf);
+      - delay: 1s
+      - text_sensor.template.publish:
+          id: ir_raw_last
+          state: ""
+
+  # DECODES: publish decoded info for 1 second
+  on_nec:
+    then:
+      - text_sensor.template.publish:
+          id: ir_decoded_last
+          state: !lambda |-
+            char buf[80];
+            snprintf(buf, sizeof(buf), "NEC addr=0x%04X cmd=0x%02X", x.address, x.command);
+            return std::string(buf);
+      - delay: 1s
+      - text_sensor.template.publish: { id: ir_decoded_last, state: "" }
+
+  on_sony:
+    then:
+      - text_sensor.template.publish:
+          id: ir_decoded_last
+          state: !lambda |-
+            char buf[80];
+            snprintf(buf, sizeof(buf), "SONY data=0x%X nbits=%u", x.data, (unsigned) x.nbits);
+            return std::string(buf);
+      - delay: 1s
+      - text_sensor.template.publish: { id: ir_decoded_last, state: "" }
+
+  on_panasonic:
+    then:
+      - text_sensor.template.publish:
+          id: ir_decoded_last
+          state: !lambda |-
+            char buf[96];
+            snprintf(buf, sizeof(buf), "PANASONIC addr=0x%04X cmd=0x%04X", x.address, x.command);
+            return std::string(buf);
+      - delay: 1s
+      - text_sensor.template.publish: { id: ir_decoded_last, state: "" }
+
+  on_rc6:
+    then:
+      - text_sensor.template.publish:
+          id: ir_decoded_last
+          state: !lambda |-
+            char buf[96];
+            snprintf(buf, sizeof(buf), "RC6 addr=%u cmd=%u", x.address, x.command);
+            return std::string(buf);
+      - delay: 1s
+      - text_sensor.template.publish: { id: ir_decoded_last, state: "" }
+
+  on_lg:
+    then:
+      - text_sensor.template.publish:
+          id: ir_decoded_last
+          state: !lambda |-
+            char buf[80];
+            snprintf(buf, sizeof(buf), "LG data=0x%08X", (unsigned) x.data);
+            return std::string(buf);
+      - delay: 1s
+      - text_sensor.template.publish: { id: ir_decoded_last, state: "" }

@@ -1,0 +1,7 @@
+binary_sensor:
+  - <<: !include 4g_check_common.yaml
+    pin:
+      tca9555: ${tca9555_id}
+      number: ${tca_addon4g_check_num}
+      mode: INPUT
+      inverted: ${addon4g_check_inverted}

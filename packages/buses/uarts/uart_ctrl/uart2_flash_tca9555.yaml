@@ -1,0 +1,7 @@
+switch:
+  - <<: !include uart2_flash_common.yaml
+    pin:
+      tca9555: ${tca9555_id}
+      number: ${tca_uart2_flash_num}
+      mode: OUTPUT
+      inverted: ${uart2_flash_inverted}

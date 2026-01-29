@@ -1,0 +1,225 @@
+# =============================================================================
+# WS2812 Lambda Effects Package
+# Custom addressable_lambda effects (fire, confetti, candy cane, etc.)
+# Adapted from light-illumination project
+# Uses standard C++ (ESP-IDF compatible, no Arduino functions)
+# =============================================================================
+
+light:
+  - id: !extend ws2812
+    effects:
+      # --- Fire Effect (symmetric from center) ---
+      - addressable_lambda:
+          name: Fire
+          update_interval: 100ms
+          lambda: |-
+            static uint8_t heat[64];  // Max 128 LEDs supported
+            int Cooling = 55;
+            int Sparking = 110;
+            int half = it.size() / 2;
+            int cooldown;
+
+            if (initial_run) {
+              ESP_LOGD("effect", "Fire");
+              memset(heat, 0, sizeof(heat));
+            }
+
+            // Step 1: Cool down every cell
+            for (int i = 0; i < half; i++) {
+              cooldown = esphome::random_uint32() % (((Cooling * 10) / half) + 2);
+              heat[i] = (cooldown > heat[i]) ? 0 : heat[i] - cooldown;
+            }
+
+            // Step 2: Heat drifts up and diffuses
+            for (int k = half - 1; k >= 2; k--) {
+              heat[k] = (heat[k - 1] + heat[k - 2] + heat[k - 2]) / 3;
+            }
+
+            // Step 3: Randomly ignite sparks near bottom
+            if ((esphome::random_uint32() % 255) < (uint32_t)Sparking) {
+              int y = esphome::random_uint32() % 3;
+              int add_heat = 160 + (esphome::random_uint32() % 95);
+              heat[y] = std::min(255, heat[y] + add_heat);
+            }
+
+            // Step 4: Convert heat to LED colors (mirror effect)
+            for (int p = 0; p < half; p++) {
+              uint8_t t192 = (uint8_t)round((heat[p] / 255.0) * 191);
+              uint8_t heatramp = (t192 & 0x3F) << 2;
+
+              Color c;
+              if (t192 > 0x80) c = Color(255, 255, heatramp);
+              else if (t192 > 0x40) c = Color(255, heatramp, 0);
+              else c = Color(heatramp, 0, 0);
+
+              it[half - p - 1] = c;
+              if (half + p < (int)it.size()) it[half + p] = c;
+            }
+
+      # --- Confetti ---
+      - addressable_lambda:
+          name: Confetti
+          update_interval: 50ms
+          lambda: |-
+            if (initial_run) {
+              ESP_LOGD("effect", "Confetti");
+            }
+            it.all().fade_to_black(50);
+            int sparks = std::max(1, (int)(it.size() / 10));
+            for (int x = 0; x < sparks; x++) {
+              int pos = esphome::random_uint32() % it.size();
+              uint8_t hue = esphome::random_uint32() % 256;
+              it[pos] = ESPHSVColor(hue, 200, 200);
+            }
+
+      # --- Candy Cane ---
+      - addressable_lambda:
+          name: Candy Cane
+          update_interval: 100ms
+          lambda: |-
+            static int state = 0;
+            int width = it.size();
+
+            if (initial_run) {
+              ESP_LOGD("effect", "Candy Cane");
+              state = 0;
+            }
+
+            for (int i = width - 1; i > 0; i--) {
+              it[i] = it[i - 1].get();
+            }
+
+            it[0] = (state < width / 2) ? Color(255, 0, 0) : Color(255, 255, 255);
+            state = (state + 1) % width;
+
+      # --- Meteor Rain ---
+      - addressable_lambda:
+          name: Meteor
+          update_interval: 30ms
+          lambda: |-
+            static int meteor_pos = 0;
+            int meteor_size = std::max(1, (int)(it.size() / 4));
+            int trail_decay = 64;
+
+            if (initial_run) {
+              ESP_LOGD("effect", "Meteor");
+              meteor_pos = 0;
+              it.all() = Color::BLACK;
+            }
+
+            // Fade all LEDs
+            for (int i = 0; i < (int)it.size(); i++) {
+              if ((esphome::random_uint32() % 10) > 5) {
+                auto c = it[i].get();
+                it[i] = Color(
+                  std::max(0, (int)c.r - trail_decay),
+                  std::max(0, (int)c.g - trail_decay),
+                  std::max(0, (int)c.b - trail_decay)
+                );
+              }
+            }
+
+            // Draw meteor
+            for (int j = 0; j < meteor_size; j++) {
+              int pos = meteor_pos - j;
+              if (pos >= 0 && pos < (int)it.size()) {
+                it[pos] = Color(255, 255, 255);
+              }
+            }
+
+            meteor_pos++;
+            if (meteor_pos >= (int)it.size() + meteor_size) meteor_pos = 0;
+
+      # --- Running Lights ---
+      - addressable_lambda:
+          name: Running Lights
+          update_interval: 50ms
+          lambda: |-
+            static int position = 0;
+
+            if (initial_run) {
+              ESP_LOGD("effect", "Running Lights");
+              position = 0;
+            }
+
+            for (int i = 0; i < (int)it.size(); i++) {
+              float level = sin((i + position) * 0.5) * 127 + 128;
+              it[i] = Color((uint8_t)level, 0, (uint8_t)level);
+            }
+            position++;
+
+      # --- Breathing RGB ---
+      - addressable_lambda:
+          name: Breathing RGB
+          update_interval: 20ms
+          lambda: |-
+            static float breath = 0;
+            static float direction = 0.02;
+            static uint8_t hue = 0;
+
+            if (initial_run) {
+              ESP_LOGD("effect", "Breathing RGB");
+              breath = 0;
+              direction = 0.02;
+            }
+
+            breath += direction;
+            if (breath >= 1.0 || breath <= 0.0) {
+              direction = -direction;
+              if (breath <= 0.0) hue += 32;
+            }
+
+            uint8_t brightness = (uint8_t)(breath * 255);
+            for (int i = 0; i < (int)it.size(); i++) {
+              it[i] = ESPHSVColor(hue, 255, brightness);
+            }
+
+      # --- Color Chase ---
+      - addressable_lambda:
+          name: Color Chase
+          update_interval: 100ms
+          lambda: |-
+            static int pos = 0;
+            static uint8_t hue = 0;
+
+            if (initial_run) {
+              ESP_LOGD("effect", "Color Chase");
+              pos = 0;
+              hue = 0;
+            }
+
+            it.all().fade_to_black(100);
+            it[pos] = ESPHSVColor(hue, 255, 255);
+            pos = (pos + 1) % it.size();
+            if (pos == 0) hue += 32;
+
+      # --- Sparkle ---
+      - addressable_lambda:
+          name: Sparkle
+          update_interval: 20ms
+          lambda: |-
+            if (initial_run) {
+              ESP_LOGD("effect", "Sparkle");
+            }
+            it.all() = Color::BLACK;
+            int pixel = esphome::random_uint32() % it.size();
+            it[pixel] = Color(255, 255, 255);
+
+      # --- Christmas Red/Green ---
+      - addressable_lambda:
+          name: Christmas
+          update_interval: 500ms
+          lambda: |-
+            static bool swap = false;
+
+            if (initial_run) {
+              ESP_LOGD("effect", "Christmas");
+              swap = false;
+            }
+
+            for (int i = 0; i < (int)it.size(); i++) {
+              bool isEven = (i % 2 == 0);
+              if (swap) isEven = !isEven;
+              it[i] = isEven ? Color(255, 0, 0) : Color(0, 255, 0);
+            }
+            swap = !swap;

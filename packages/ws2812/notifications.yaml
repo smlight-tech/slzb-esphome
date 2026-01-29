@@ -1,0 +1,291 @@
+# =============================================================================
+# WS2812 Notification Effects Package
+# Short status indicator animations (OK, Warning, Error, Info, etc.)
+# =============================================================================
+# Requires: packages/ws2812/ws2812.yaml to be included first
+# =============================================================================
+
+select:
+  - platform: template
+    id: ws2812_notify
+    name: "${friendly_name} LED Notify"
+    icon: "mdi:bell-ring"
+    optimistic: true
+    restore_value: false
+    options:
+      - "None"
+      - "OK"
+      - "Warning"
+      - "Error"
+      - "Info"
+      - "Busy"
+      - "Ready"
+      - "Attention"
+      - "Boot"
+    initial_option: "None"
+    on_value:
+      then:
+        - if:
+            condition:
+              lambda: 'return x != "None";'
+            then:
+              - script.execute:
+                  id: ws2812_notify_script
+                  effect: !lambda 'return x;'
+
+script:
+  - id: ws2812_notify_script
+    parameters:
+      effect: string
+    then:
+      - lambda: |-
+          // Store current state to restore later (optional)
+          // For now, just turn off after notification
+
+          if (effect == "OK") {
+            // Green double blink
+            auto call = id(ws2812).turn_on();
+            call.set_rgb(0.0, 1.0, 0.0);
+            call.set_brightness(1.0);
+            call.set_effect("None");
+            call.set_transition_length(0);
+            call.perform();
+          }
+          else if (effect == "Warning") {
+            // Orange triple blink
+            auto call = id(ws2812).turn_on();
+            call.set_rgb(1.0, 0.5, 0.0);
+            call.set_brightness(1.0);
+            call.set_effect("None");
+            call.set_transition_length(0);
+            call.perform();
+          }
+          else if (effect == "Error") {
+            // Red rapid blink
+            auto call = id(ws2812).turn_on();
+            call.set_rgb(1.0, 0.0, 0.0);
+            call.set_brightness(1.0);
+            call.set_effect("None");
+            call.set_transition_length(0);
+            call.perform();
+          }
+          else if (effect == "Info") {
+            // Blue single blink
+            auto call = id(ws2812).turn_on();
+            call.set_rgb(0.0, 0.5, 1.0);
+            call.set_brightness(1.0);
+            call.set_effect("None");
+            call.set_transition_length(0);
+            call.perform();
+          }
+          else if (effect == "Busy") {
+            // Yellow pulse
+            auto call = id(ws2812).turn_on();
+            call.set_rgb(1.0, 1.0, 0.0);
+            call.set_brightness(1.0);
+            call.set_effect("None");
+            call.set_transition_length(0);
+            call.perform();
+          }
+          else if (effect == "Ready") {
+            // Cyan single
+            auto call = id(ws2812).turn_on();
+            call.set_rgb(0.0, 1.0, 1.0);
+            call.set_brightness(1.0);
+            call.set_effect("None");
+            call.set_transition_length(0);
+            call.perform();
+          }
+          else if (effect == "Attention") {
+            // Magenta
+            auto call = id(ws2812).turn_on();
+            call.set_rgb(1.0, 0.0, 1.0);
+            call.set_brightness(1.0);
+            call.set_effect("None");
+            call.set_transition_length(0);
+            call.perform();
+          }
+          else if (effect == "Boot") {
+            // White
+            auto call = id(ws2812).turn_on();
+            call.set_rgb(1.0, 1.0, 1.0);
+            call.set_brightness(1.0);
+            call.set_effect("None");
+            call.set_transition_length(0);
+            call.perform();
+          }
+
+      # Blink pattern based on effect type
+      - if:
+          condition:
+            lambda: 'return effect == "OK";'
+          then:
+            # Green double blink
+            - delay: 150ms
+            - light.turn_off: ws2812
+            - delay: 100ms
+            - light.turn_on:
+                id: ws2812
+                brightness: 100%
+                red: 0%
+                green: 100%
+                blue: 0%
+                transition_length: 0s
+            - delay: 150ms
+            - light.turn_off: ws2812
+
+      - if:
+          condition:
+            lambda: 'return effect == "Warning";'
+          then:
+            # Orange triple blink
+            - delay: 120ms
+            - light.turn_off: ws2812
+            - delay: 80ms
+            - light.turn_on:
+                id: ws2812
+                brightness: 100%
+                red: 100%
+                green: 50%
+                blue: 0%
+                transition_length: 0s
+            - delay: 120ms
+            - light.turn_off: ws2812
+            - delay: 80ms
+            - light.turn_on:
+                id: ws2812
+                brightness: 100%
+                red: 100%
+                green: 50%
+                blue: 0%
+                transition_length: 0s
+            - delay: 120ms
+            - light.turn_off: ws2812
+
+      - if:
+          condition:
+            lambda: 'return effect == "Error";'
+          then:
+            # Red rapid 5x blink
+            - delay: 80ms
+            - light.turn_off: ws2812
+            - delay: 80ms
+            - light.turn_on:
+                id: ws2812
+                brightness: 100%
+                red: 100%
+                green: 0%
+                blue: 0%
+                transition_length: 0s
+            - delay: 80ms
+            - light.turn_off: ws2812
+            - delay: 80ms
+            - light.turn_on:
+                id: ws2812
+                brightness: 100%
+                red: 100%
+                green: 0%
+                blue: 0%
+                transition_length: 0s
+            - delay: 80ms
+            - light.turn_off: ws2812
+            - delay: 80ms
+            - light.turn_on:
+                id: ws2812
+                brightness: 100%
+                red: 100%
+                green: 0%
+                blue: 0%
+                transition_length: 0s
+            - delay: 80ms
+            - light.turn_off: ws2812
+            - delay: 80ms
+            - light.turn_on:
+                id: ws2812
+                brightness: 100%
+                red: 100%
+                green: 0%
+                blue: 0%
+                transition_length: 0s
+            - delay: 80ms
+            - light.turn_off: ws2812
+
+      - if:
+          condition:
+            lambda: 'return effect == "Info";'
+          then:
+            # Blue single long blink
+            - delay: 300ms
+            - light.turn_off: ws2812
+
+      - if:
+          condition:
+            lambda: 'return effect == "Busy";'
+          then:
+            # Yellow fade out
+            - delay: 200ms
+            - light.turn_on:
+                id: ws2812
+                brightness: 50%
+                transition_length: 200ms
+            - delay: 200ms
+            - light.turn_on:
+                id: ws2812
+                brightness: 20%
+                transition_length: 200ms
+            - delay: 200ms
+            - light.turn_off:
+                id: ws2812
+                transition_length: 200ms
+
+      - if:
+          condition:
+            lambda: 'return effect == "Ready";'
+          then:
+            # Cyan pulse up then off
+            - delay: 100ms
+            - light.turn_on:
+                id: ws2812
+                brightness: 50%
+                transition_length: 100ms
+            - delay: 100ms
+            - light.turn_on:
+                id: ws2812
+                brightness: 100%
+                transition_length: 100ms
+            - delay: 200ms
+            - light.turn_off:
+                id: ws2812
+                transition_length: 300ms
+
+      - if:
+          condition:
+            lambda: 'return effect == "Attention";'
+          then:
+            # Magenta double flash
+            - delay: 100ms
+            - light.turn_off: ws2812
+            - delay: 150ms
+            - light.turn_on:
+                id: ws2812
+                brightness: 100%
+                red: 100%
+                green: 0%
+                blue: 100%
+                transition_length: 0s
+            - delay: 100ms
+            - light.turn_off: ws2812
+
+      - if:
+          condition:
+            lambda: 'return effect == "Boot";'
+          then:
+            # White sweep fade
+            - light.turn_on:
+                id: ws2812
+                brightness: 100%
+                transition_length: 300ms
+            - delay: 500ms
+            - light.turn_off:
+                id: ws2812
+                transition_length: 500ms

@@ -1,0 +1,9 @@
+# W5500 on ESP32 GPIO pins
+ethernet:
+  type: W5500
+  clk_pin: ${pin_spi_sclk}
+  mosi_pin: ${pin_spi_mosi}
+  miso_pin: ${pin_spi_miso}
+  cs_pin: ${pin_w5500_cs}
+  interrupt_pin: ${pin_w5500_int}
+  reset_pin: ${pin_w5500_rst}

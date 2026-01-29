@@ -1,0 +1,16 @@
+usb_host:
+  enable_hubs: true
+  max_transfer_requests: 32  # For high-throughput devices like USB UART at 115200+ baud
+
+usb_uart:
+  - type: cp210x
+    channels:
+      - id: usb_device_uart
+        baud_rate: 115200
+        buffer_size: 1024
+
+stream_server:
+  - id: ss_usb_device
+    uart_id: usb_device_uart
+    port: 9638
+#    buffer_size: 8192

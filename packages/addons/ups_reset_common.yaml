@@ -1,0 +1,3 @@
+platform: gpio
+id: ups_reset
+name: "${friendly_name} UPS Reset"

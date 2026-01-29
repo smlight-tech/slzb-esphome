@@ -1,0 +1,3 @@
+platform: gpio
+id: ups_check
+name: "${friendly_name} UPS Check"

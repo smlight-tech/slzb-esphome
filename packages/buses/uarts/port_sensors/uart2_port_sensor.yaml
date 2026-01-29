@@ -1,0 +1,6 @@
+sensor:
+  - platform: template
+    name: "${friendly_name} ${uart2_radio_name} TCP Port"
+    lambda: |-
+      return std::string("${uart2_default_port}");
+    update_interval: never

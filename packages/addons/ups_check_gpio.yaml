@@ -1,0 +1,6 @@
+binary_sensor:
+  - <<: !include ups_check_common.yaml
+    pin:
+      number: ${pin_ups_check}
+      mode: INPUT
+      inverted: ${ups_check_inverted}

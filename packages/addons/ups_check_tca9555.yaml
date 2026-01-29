@@ -1,0 +1,7 @@
+binary_sensor:
+  - <<: !include ups_check_common.yaml
+    pin:
+      tca9555: ${tca9555_id}
+      number: ${tca_ups_check_num}
+      mode: INPUT
+      inverted: ${ups_check_inverted}

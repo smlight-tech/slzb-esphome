@@ -1,0 +1,8 @@
+binary_sensor:
+  - platform: gpio
+    id: diy_sensor3
+    name: "${friendly_name} DIY Sensor 3"
+    pin:
+      number: ${pin_diy_sensor3}
+      mode: INPUT
+      inverted: ${diy_sensor3_inverted}
