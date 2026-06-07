@@ -6,5 +6,5 @@ light:
     num_leds: ${ws2812_num_leds}
     name: "${friendly_name} WS2812"
     id: ws2812
-    rmt_symbols: 192
+    rmt_symbols: 96
     default_transition_length: 0ms
