@@ -1,6 +1,16 @@
 sensor:
   - platform: uptime
     name: "${friendly_name} Uptime"
+
 text_sensor:
   - platform: version
     name: "${friendly_name} ESPHome Version"
+
+button:
+  - platform: restart
+    name: "${friendly_name} Restart"
+  - platform: safe_mode
+    name: "${friendly_name} Safe Mode Restart"
+  - platform: factory_reset
+    name: "${friendly_name} Factory Reset"
+    disabled_by_default: true
