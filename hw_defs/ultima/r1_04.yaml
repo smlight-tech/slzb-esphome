@@ -48,12 +48,15 @@ substitutions:
   # ==========================================================
   pin_ws2812: "GPIO34"                # WS2812 data pin
   ws2812_num_leds: 12                 # Number of LEDs
+  ws2812_rmt_symbols: 96              # RMT TX symbols (ESP32-S3 TX pool = 192 total; shared with IR TX)
 
   # ==========================================================
   # Infrared
   # ==========================================================
   pin_ir_rx: "GPIO3"                  # IR receiver input
   pin_ir_tx: "GPIO47"                 # IR transmitter output
+  ir_rx_rmt_symbols: 96              # RMT RX symbols (ESP32-S3 RX pool = 192 total; independent from TX)
+  ir_tx_rmt_symbols: 96              # RMT TX symbols (ESP32-S3 TX pool = 192 total; shared with WS2812)
 
   # ==========================================================
   # I2C Bus

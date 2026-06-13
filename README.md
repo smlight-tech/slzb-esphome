@@ -169,6 +169,16 @@ name:d=duration,o=octave,b=bpm:notes
 
 Devices with WS2812 LEDs (e.g., Ultima) support various light effects controllable from Home Assistant.
 
+**RMT symbol buffer (advanced):**
+
+The WS2812 driver uses the ESP32-S3 RMT peripheral. The TX symbol pool is shared with the IR transmitter (192 symbols total across 4 channels). The default allocation is 96 symbols for WS2812 and 96 for IR TX. If you are not using IR and want to allocate more symbols to WS2812, override the substitution in your device YAML:
+
+```yaml
+substitutions:
+  ws2812_rmt_symbols: "192"   # increase only if IR TX is disabled
+  ir_tx_rmt_symbols: "0"      # set to 0 if not used
+```
+
 **Turn on with effect:**
 ```yaml
 service: light.turn_on
@@ -255,3 +265,14 @@ data:
 ```
 
 Check `libraries/ir/codes/` for available IR code packs.
+
+**RMT symbol buffer (advanced):**
+
+The IR transmitter and WS2812 share the ESP32-S3 RMT TX symbol pool (192 symbols total). Defaults are 96 each. Override in your device YAML if needed:
+
+```yaml
+substitutions:
+  ir_tx_rmt_symbols: "128"    # increase if WS2812 is not used
+  ir_rx_rmt_symbols: "96"     # RX pool is independent (192 symbols total)
+  ws2812_rmt_symbols: "64"    # reduce if giving more to IR TX
+```

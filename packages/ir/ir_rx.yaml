@@ -2,5 +2,5 @@ remote_receiver:
   pin:
     number: ${pin_ir_rx}
     ignore_strapping_warning: true
-  rmt_symbols: 96
+  rmt_symbols: ${ir_rx_rmt_symbols}
   dump: all
